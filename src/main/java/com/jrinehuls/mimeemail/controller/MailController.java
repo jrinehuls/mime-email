@@ -19,8 +19,9 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/mime")
-    public ResponseEntity<String> sendMimeEmail(@RequestParam(value = "file", required = false) MultipartFile file) {
-        return new ResponseEntity<>("fileString", HttpStatus.OK);
+    public ResponseEntity<String> sendMimeEmail(@RequestParam(value = "files", required = false) MultipartFile[] files,
+                                                String to, String[] cc, String subject, String body) {
+        return new ResponseEntity<>(mailService.sendMimeEmail(files, to, cc, subject, body), HttpStatus.OK);
     }
 
     @PostMapping("/b64")
