@@ -18,6 +18,11 @@ public class MailController {
 
     private MailService mailService;
 
+    @PostMapping("/mime")
+    public ResponseEntity<String> sendMimeEmail(@RequestParam(value = "file", required = false) MultipartFile file) {
+        return new ResponseEntity<>("fileString", HttpStatus.OK);
+    }
+
     @PostMapping("/b64")
     public ResponseEntity<String> encodeFileB64(@RequestParam(value = "file", required = false) MultipartFile file) {
         try {
