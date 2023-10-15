@@ -37,14 +37,13 @@ public class MailServiceImpl implements MailService {
             mimeMessageHelper.setText(body);
 
             for (MultipartFile file: files) {
-                mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getOriginalFilename()),
-                        new ByteArrayResource(file.getBytes()));
+                mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getOriginalFilename()), file);
             }
 
             javaMailSender.send(mimeMessage);
 
             return "Mail sent";
-        } catch (MessagingException | IOException | NullPointerException e) {
+        } catch (MessagingException | NullPointerException e) {
             throw new RuntimeException(e);
         }
 
