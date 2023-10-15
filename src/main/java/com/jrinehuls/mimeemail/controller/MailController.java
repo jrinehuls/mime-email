@@ -1,6 +1,8 @@
 package com.jrinehuls.mimeemail.controller;
 
+import com.jrinehuls.mimeemail.model.MimeEmail;
 import com.jrinehuls.mimeemail.service.MailService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +21,8 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/mime")
-    public ResponseEntity<String> sendMimeEmail(@RequestParam(value = "files", required = false) MultipartFile[] files,
-                                                String to, String[] cc, String subject, String body) {
-        return new ResponseEntity<>(mailService.sendMimeEmail(files, to, cc, subject, body), HttpStatus.OK);
+    public ResponseEntity<String> sendMimeEmail(@ModelAttribute @Valid MimeEmail mimeEmail) {
+        return new ResponseEntity<>(mailService.sendMimeEmail(mimeEmail), HttpStatus.OK);
     }
 
     @PostMapping("/b64")
