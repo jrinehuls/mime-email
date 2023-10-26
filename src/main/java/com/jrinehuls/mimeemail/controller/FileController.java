@@ -46,13 +46,12 @@ public class FileController {
         byte[] bytes;
         try {
             bytes = file.getBytes();
-            OutputStream out = new FileOutputStream("resume.pdf");
-            out.write(bytes);
+            // OutputStream out = new FileOutputStream("resume.pdf");
+            // out.write(bytes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return new ResponseEntity<>(bytes, HttpStatus.OK);
     }
-
 
 }
