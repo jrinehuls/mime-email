@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 @RestController
@@ -28,10 +31,23 @@ public class FileController {
     }
 
     @PostMapping(value = "/png", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> encodeFilesB64Img(@RequestParam(value = "files") MultipartFile file) {
+    public ResponseEntity<byte[]> encodeFilesB64Img(@RequestParam(value = "file") MultipartFile file) {
         byte[] bytes = new byte[0];
         try {
             bytes = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(bytes, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> encodeFilesB64Pdf(@RequestParam(value = "file") MultipartFile file) {
+        byte[] bytes;
+        try {
+            bytes = file.getBytes();
+            OutputStream out = new FileOutputStream("resume.pdf");
+            out.write(bytes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
